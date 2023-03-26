@@ -16,9 +16,9 @@ public class GamePanel extends JPanel implements ActionListener {
     //the object (snake) amount which can be shown on screen
     static final int GAME_UNITS = (WIDTH*HEIGHT)/UNIT_SIZE;
     //x coordinate of the snake
-    final int x[] = new int[GAME_UNITS];
+    final int[] x = new int[GAME_UNITS];
     //y coordinate of the snake
-    final int y[] = new int[GAME_UNITS];
+    final int[] y = new int[GAME_UNITS];
     //how fast the snake is moving
     int delay = 125;
     //how big is the snake
@@ -37,7 +37,9 @@ public class GamePanel extends JPanel implements ActionListener {
     int level = 1;
     Timer timer;
     Random random;
-    GamePanel(){
+    SendResultsCallback sendResultsCallback;
+    GamePanel(SendResultsCallback sendResultsCallback){
+        this.sendResultsCallback = sendResultsCallback;
         //instance of Random class
         random = new Random();
         //preferred size of Panel
@@ -98,6 +100,7 @@ public class GamePanel extends JPanel implements ActionListener {
             //increments game score
             foodEaten++;
             //increments level and decrements timer
+            sendResultsCallback.sendFoodEaten(foodEaten);
             if ((foodEaten %10 == 0) && (running)){
                 level++;
                 // MakeSound.makeSound("/Users/mac/Desktop/java/mixkit-arcade-bonus-alert-767.wav");
